@@ -1,0 +1,16 @@
+# Microsoft Active Directory User Management
+Import-Module ActiveDirectory
+
+$newUserParams = @{
+    Name = "JohnDoe"
+    GivenName = "John"
+    Surname = "Doe"
+    SamAccountName = "johndoe"
+    UserPrincipalName = "johndoe@contoso.com"
+    Path = "OU=Users,DC=contoso,DC=com"
+    AccountPassword = (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force)
+    Enabled = $true
+}
+
+New-ADUser @newUserParams
+Write-Host "Microsoft AD user created successfully!"
