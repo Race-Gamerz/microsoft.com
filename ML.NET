@@ -1,0 +1,22 @@
+// Microsoft ML.NET Machine Learning with F#
+open Microsoft.ML
+open Microsoft.ML.Data
+
+[<CLIMutable>]
+type HousingData = {
+    [<LoadColumn(0)>] Size: float32
+    [<LoadColumn(1)>] Price: float32
+}
+
+let context = MLContext()
+let data = context.Data.LoadFromTextFile<HousingData>("housing.csv", hasHeader=true)
+let pipeline = 
+    context.Transforms.Concatenate("Features", [|"Size"|])
+        .Append(context.Regression.Trainers.Sdca(labelColumnName="Price"))
+
+let model = pipeline.Fit(data)
+let predictionEngine = context.Model.CreatePredictionEngine<HousingData, HousingPrediction>(model)
+
+let sample = { Size = 1500f }
+let prediction = predictionEngine.Predict(sample)
+printfn "Microsoft ML.NET predicts: $%f" prediction.Price
