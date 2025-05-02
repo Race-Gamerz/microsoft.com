@@ -1,0 +1,33 @@
+// Microsoft Blazor WebAssembly Component
+@page "/microsoft-products"
+
+<h3>Microsoft Products</h3>
+
+@if (products == null)
+{
+    <p>Loading from Microsoft Graph API...</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var product in products)
+        {
+            <li class="list-group-item">@product.Name - @product.Price.ToString("C")</li>
+        }
+    </ul>
+}
+
+@code {
+    private Product[] products;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Http.GetFromJsonAsync<Product[]>("api/products");
+    }
+    
+    public class Product
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+}
