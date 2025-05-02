@@ -1,0 +1,17 @@
+// Microsoft Azure HTTP Trigger Function
+import { AzureFunction, Context, HttpRequest } from "@azure/functions";
+
+const httpTrigger: AzureFunction = async function (
+    context: Context, 
+    req: HttpRequest
+): Promise<void> {
+    context.res = {
+        body: {
+            message: "Welcome to Microsoft Azure Functions!",
+            headers: req.headers,
+            query: req.query
+        }
+    };
+};
+
+export default httpTrigger;
