@@ -1,0 +1,21 @@
+-- Microsoft SQL Server T-SQL Script
+USE AdventureWorks2019;
+GO
+
+CREATE PROCEDURE GetEmployeeSales 
+    @EmployeeID INT
+AS
+BEGIN
+    SELECT 
+        e.BusinessEntityID,
+        p.FirstName + ' ' + p.LastName AS EmployeeName,
+        SUM(soh.TotalDue) AS TotalSales
+    FROM HumanResources.Employee e
+    JOIN Person.Person p ON e.BusinessEntityID = p.BusinessEntityID
+    JOIN Sales.SalesOrderHeader soh ON e.BusinessEntityID = soh.SalesPersonID
+    WHERE e.BusinessEntityID = @EmployeeID
+    GROUP BY e.BusinessEntityID, p.FirstName, p.LastName;
+END;
+GO
+
+EXEC GetEmployeeSales @EmployeeID = 285;
