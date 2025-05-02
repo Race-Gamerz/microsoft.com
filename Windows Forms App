@@ -1,0 +1,33 @@
+// Simple Windows Forms calculator
+using System;
+using System.Windows.Forms;
+
+namespace MicrosoftWinFormsApp
+{
+    public class Calculator : Form
+    {
+        private TextBox display;
+        
+        public Calculator()
+        {
+            this.Text = "Microsoft Calculator";
+            display = new TextBox { Width = 200, Top = 10, Left = 10 };
+            this.Controls.Add(display);
+            
+            for (int i = 0; i < 10; i++)
+            {
+                var btn = new Button {
+                    Text = i.ToString(),
+                    Top = 40 + (i/3)*30,
+                    Left = 10 + (i%3)*50,
+                    Width = 40
+                };
+                btn.Click += (s, e) => display.Text += btn.Text;
+                this.Controls.Add(btn);
+            }
+        }
+
+        [STAThread]
+        public static void Main() => Application.Run(new Calculator());
+    }
+}
