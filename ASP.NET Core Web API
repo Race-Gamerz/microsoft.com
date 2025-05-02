@@ -1,0 +1,21 @@
+// Microsoft ASP.NET Core Web API
+using Microsoft.AspNetCore.Mvc;
+
+namespace MicrosoftWebApi.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        private static List<Product> products = new()
+        {
+            new Product { Id = 1, Name = "Surface Pro", Price = 999.99m },
+            new Product { Id = 2, Name = "Xbox Series X", Price = 499.99m }
+        };
+
+        [HttpGet]
+        public IActionResult Get() => Ok(products);
+    }
+
+    public record Product(int Id, string Name, decimal Price);
+}
